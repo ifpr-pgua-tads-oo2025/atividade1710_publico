@@ -12,6 +12,10 @@ public class Contato {
         this.email = email;
     }
 
+    public String getNome(){
+        return nome;
+    }
+
     public String toString(){
         return "Nome:"+nome+" Telefone:"+telefone+" Email:"+email;
     }

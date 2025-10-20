@@ -21,10 +21,13 @@ public class App {
         CadastroController cadastroController = new CadastroController(agenda);
         ListaController listaController = new ListaController(agenda);
 
+        //rota
         app.get("/", indexController.get);
         app.get("/hello2",indexController.get2);
+
         app.get("/add",cadastroController.get);
         app.post("/add",cadastroController.post);
+        
         app.get("/list",listaController.get);
 
     }

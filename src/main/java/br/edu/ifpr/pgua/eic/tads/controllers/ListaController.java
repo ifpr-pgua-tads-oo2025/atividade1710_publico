@@ -1,6 +1,8 @@
 package br.edu.ifpr.pgua.eic.tads.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import br.edu.ifpr.pgua.eic.tads.model.Agenda;
 import br.edu.ifpr.pgua.eic.tads.model.Contato;
@@ -19,13 +21,10 @@ public class ListaController {
 
         List<Contato> lista = agenda.getLista();
         
-        String retorno = "<ul>";
-        for(Contato c:lista){
-            retorno += "<li>"+c.toString()+"</li>";
-        }
-        retorno += "</ul>";
+        Map<String,Object> dados = new HashMap<>();
+        dados.put("contatos",lista);
 
-        ctx.html(retorno);
+        ctx.render("list.html",dados);
 
     };
 
