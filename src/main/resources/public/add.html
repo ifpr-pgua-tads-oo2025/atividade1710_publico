@@ -7,6 +7,11 @@
     <title>Adicionar Contato</title>
 </head>
 <body>
+
+    <#if mensagem?? >
+        <h2>${mensagem}</h2>
+    </#if>
+
     <h2>Cadastrar Cliente:</h2>
        <form method="post" action="/add">
            <label for="nome">Nome:</label>

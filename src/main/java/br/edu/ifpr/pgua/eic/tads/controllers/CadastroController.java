@@ -1,5 +1,8 @@
 package br.edu.ifpr.pgua.eic.tads.controllers;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import br.edu.ifpr.pgua.eic.tads.model.Agenda;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
@@ -23,7 +26,11 @@ public class CadastroController {
 
         String retorno = agenda.cadastrar(nome, email, telefone);
 
-        ctx.html(retorno);
+        Map<String,Object> dados = new HashMap<>();
+
+        dados.put("mensagem",retorno);
+
+        ctx.render("add.html",dados);
     };
 
 }

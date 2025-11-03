@@ -23,6 +23,8 @@ public class ListaController {
         
         Map<String,Object> dados = new HashMap<>();
         dados.put("contatos",lista);
+        dados.put("titulo","Lista de Contatos");
+        dados.put("totalContatos",lista.size());
 
         ctx.render("list.html",dados);
 

@@ -4,16 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/estilo.css">
-    <title>Lista de Contatos</title>
+    <title>${titulo}</title>
 </head>
 <body>
-    <h1>Contatos Cadastrados</h1>
+    <#if totalContatos gt 0>
+        <h1>Contatos Cadastrados: ${totalContatos}</h1>
 
-    <ul>
-    <#list contatos as contato>
-        <li>${contato.nome}</li>
-    </#list>
-    </ul>
+        <ul>
+            <#list contatos as contato>
+                <li>${contato.nome} - ${contato.email}</li>
+            </#list>
+        </ul>
+    <#else>
+        <h1> Nenhum contato cadastrado!</h1>
 
+    </#if>
+    
 </body>
 </html>
