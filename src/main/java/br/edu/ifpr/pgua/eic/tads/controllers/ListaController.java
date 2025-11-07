@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.github.hugoperlin.results.Resultado;
+
 import br.edu.ifpr.pgua.eic.tads.model.Contato;
 import br.edu.ifpr.pgua.eic.tads.model.repositories.ContatoRepository;
 import io.javalin.http.Context;
@@ -19,12 +21,18 @@ public class ListaController {
 
     public Handler get = (Context ctx)->{
 
-        List<Contato> lista = repositorio.listar();
+        Resultado<List<Contato>> resultado = repositorio.listar();
         
         Map<String,Object> dados = new HashMap<>();
-        dados.put("contatos",lista);
+        
+        if(resultado.foiSucesso()){
+            dados.put("contatos",resultado.comoSucesso().getObj());
+            dados.put("totalContatos",resultado.comoSucesso().getObj().size());
+        }else{
+            dados.put("erro",resultado.getMsg());
+        }
+        
         dados.put("titulo","Lista de Contatos");
-        dados.put("totalContatos",lista.size());
 
         ctx.render("list.html",dados);
 

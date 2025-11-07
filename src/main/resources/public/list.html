@@ -7,17 +7,21 @@
     <title>${titulo}</title>
 </head>
 <body>
-    <#if totalContatos gt 0>
-        <h1>Contatos Cadastrados: ${totalContatos}</h1>
-
-        <ul>
-            <#list contatos as contato>
-                <li>${contato.nome} - ${contato.email}</li>
-            </#list>
-        </ul>
+    <#if erro?? >
+        <h1>${erro}</h1>
     <#else>
-        <h1> Nenhum contato cadastrado!</h1>
+        <#if totalContatos gt 0>
+            <h1>Contatos Cadastrados: ${totalContatos}</h1>
 
+            <ul>
+                <#list contatos as contato>
+                    <li>${contato.nome} - ${contato.email}</li>
+                </#list>
+            </ul>
+        <#else>
+            <h1> Nenhum contato cadastrado!</h1>
+
+        </#if>
     </#if>
     
 </body>

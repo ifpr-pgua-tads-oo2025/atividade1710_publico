@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.github.hugoperlin.results.Resultado;
+
 import br.edu.ifpr.pgua.eic.tads.model.Contato;
 import br.edu.ifpr.pgua.eic.tads.model.FabricaConexoes;
 
@@ -21,7 +23,7 @@ public class JDBCContatoDAO implements ContatoDAO{
 
 
     @Override
-    public String salvar(Contato contato) {
+    public Resultado<Contato> salvar(Contato contato) {
         //1-Estabelecer uma conexão
         Connection con=null;
         
@@ -39,23 +41,23 @@ public class JDBCContatoDAO implements ContatoDAO{
             int rows = pstm.executeUpdate();
 
             if(rows == 1){
-                return "Contato cadastrado!";
+                return Resultado.sucesso("Contato cadastrado!",contato);
             }else{
-                return "Problema ao inserir o contato!";
+                return Resultado.erro("Problema ao cadastar!");
             }
 
 
             
         }catch(SQLException e){
             e.printStackTrace();
-            return "Erro SQL:"+e.getMessage();
+            return Resultado.erro(e.getMessage());
         }
         
     
     }
 
     @Override
-    public List<Contato> listar() {
+    public Resultado<List<Contato>> listar() {
         
         List<Contato> lista = new ArrayList<>();
         Connection con;
@@ -76,12 +78,11 @@ public class JDBCContatoDAO implements ContatoDAO{
                 Contato contato = new Contato(id,nome, telefone, email);
                 lista.add(contato);
             }
-            return Collections.unmodifiableList(lista);
+            return Resultado.sucesso("Lista",Collections.unmodifiableList(lista));
 
         }catch(SQLException e){
-            e.printStackTrace();
-        }
-        return null;   
+            return Resultado.erro(e.getMessage());
+        }  
 
     
     }
