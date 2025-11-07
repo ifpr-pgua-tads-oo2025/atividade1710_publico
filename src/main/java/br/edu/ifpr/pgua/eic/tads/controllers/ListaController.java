@@ -4,22 +4,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import br.edu.ifpr.pgua.eic.tads.model.Agenda;
 import br.edu.ifpr.pgua.eic.tads.model.Contato;
+import br.edu.ifpr.pgua.eic.tads.model.repositories.ContatoRepository;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 
 public class ListaController {
     
-    private Agenda agenda;
+    private ContatoRepository repositorio;
     
-    public ListaController(Agenda agenda){
-        this.agenda = agenda;
+    public ListaController(ContatoRepository repositorio){
+        this.repositorio = repositorio;
     }
 
     public Handler get = (Context ctx)->{
 
-        List<Contato> lista = agenda.getLista();
+        List<Contato> lista = repositorio.listar();
         
         Map<String,Object> dados = new HashMap<>();
         dados.put("contatos",lista);

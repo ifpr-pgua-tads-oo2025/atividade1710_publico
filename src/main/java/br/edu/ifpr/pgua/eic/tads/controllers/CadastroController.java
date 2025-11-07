@@ -3,16 +3,16 @@ package br.edu.ifpr.pgua.eic.tads.controllers;
 import java.util.HashMap;
 import java.util.Map;
 
-import br.edu.ifpr.pgua.eic.tads.model.Agenda;
+import br.edu.ifpr.pgua.eic.tads.model.repositories.ContatoRepository;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 
 public class CadastroController {
     
-    private Agenda agenda;
+    private ContatoRepository repositorio;
 
-    public CadastroController(Agenda agenda){
-        this.agenda = agenda;
+    public CadastroController(ContatoRepository repositorio){
+        this.repositorio = repositorio;
     }
 
     public Handler get = (Context ctx)->{
@@ -24,7 +24,7 @@ public class CadastroController {
         String email = ctx.formParam("email");
         String telefone = ctx.formParam("telefone");
 
-        String retorno = agenda.cadastrar(nome, email, telefone);
+        String retorno = repositorio.cadastrar(nome, email, telefone);
 
         Map<String,Object> dados = new HashMap<>();
 

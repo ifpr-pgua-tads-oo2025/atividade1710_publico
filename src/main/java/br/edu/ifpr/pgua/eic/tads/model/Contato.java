@@ -29,6 +29,10 @@ public class Contato {
         return email;
     }
 
+    public String getTelefone(){
+        return telefone;
+    }
+
     public String toString(){
         return "Nome:"+nome+" Telefone:"+telefone+" Email:"+email;
     }
