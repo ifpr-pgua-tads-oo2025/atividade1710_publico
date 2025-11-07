@@ -1,10 +1,13 @@
 package br.edu.ifpr.pgua.eic.tads.model;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -91,10 +94,71 @@ public class Agenda {
         }catch(SQLException e){
             e.printStackTrace();
         }
-        return null;
+        return null;   
+    }
 
+    public String cadastrarCompromisso(LocalDateTime data, String descricao){
+        String sql = "INSERT INTO oo_compromissos(dataHora,descricao) VALUES (?,?)";
 
+        try{
+            
+            String url = "jdbc:mysql://localhost:3306/contatos";
+            String username = "root";
+            String password = "1234";
+
+            Connection con = DriverManager.getConnection(url,username,password);
+            PreparedStatement pstm = con.prepareStatement(sql);
+
+            pstm.setTimestamp(1, Timestamp.valueOf(data));
+            pstm.setString(2,descricao);
+
+            int cont = pstm.executeUpdate();
+
+            if(cont == 1){
+                return "Compromisso cadastrado!";
+            }else{
+                return "Problema ao cadastrar compromisso";
+            }
+
+        }catch(SQLException e){
+            e.printStackTrace();
+            return e.getMessage();
+        }
+    }
+
+    public List<Compromisso> listarCompromissos(){
         
+        String sql = "SELECT * FROM oo_compromissos";
+        List<Compromisso> lista = new ArrayList<>();
+
+        try{
+            
+            String url = "jdbc:mysql://localhost:3306/contatos";
+            String username = "root";
+            String password = "1234";
+
+            Connection con = DriverManager.getConnection(url,username,password);
+            PreparedStatement pstm = con.prepareStatement(sql);
+
+
+            ResultSet result = pstm.executeQuery();
+
+            while(result.next()){
+                int id = result.getInt("id");
+                String descricao = result.getString("descricao");
+                LocalDateTime data = result.getTimestamp("dataHora").toLocalDateTime();
+
+                Compromisso compromisso = new Compromisso(id,data, descricao);
+                lista.add(compromisso);
+            }
+
+            return lista;
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
 }
