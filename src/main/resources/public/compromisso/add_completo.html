@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/estilo.css">
+    <title>Adicionar Compromisso</title>
+</head>
+<body>
+
+    <#if mensagem?? >
+        <h2>${mensagem}</h2>
+    </#if>
+
+    <h2>Cadastrar Compromisso:</h2>
+       <form method="post" action="/compromisso/add">
+           <label for="descricao">Descrição:</label>
+           <input type="text" name="descricao"/><br/>
+            <label>Data:</label>
+            <input type="date" name="data"><br/>
+            <label>Hora:</label>
+            <input type="time" name="hora"><br/>
+            <label for="Contatos">Selecione os convidados:</label>
+            <select id="contatos" name="contatos" multiple size="5">
+            <#list contatos as contato>
+                <option value="${contato.id}">${contato.nome}</option>
+            </#list>
+            </select>
+           <input type="submit"/>
+       </form>
+       <a href="/">Voltar</a> 
+</body>
+</html>

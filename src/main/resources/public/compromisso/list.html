@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/estilo.css">
+    <title>${titulo}</title>
+</head>
+<body>
+    <#if erro?? >
+        <h1>${erro}</h1>
+    <#else>
+            <h1>Compromissos</h1>
+
+            <ul>
+                <#list compromissos as compromisso>
+                    <li>${compromisso.dataHora} - ${compromisso.descricao}</li>
+                </#list>
+            </ul>
+    </#if>
+    
+</body>
+</html>
