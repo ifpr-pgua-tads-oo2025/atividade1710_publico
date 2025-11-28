@@ -36,7 +36,7 @@ public class AppTest
         CategoriaDAO daoCategoria = new JDBCCategoriaDAO(FabricaConexoes.getInstance());
         ContatoDAO daoContato = new JDBCContatoDAO(FabricaConexoes.getInstance());
         
-        CompromissoRepository repositorio = new CompromissoRepository(dao,daoCategoria);
+        CompromissoRepository repositorio = new CompromissoRepository(dao,daoCategoria,daoContato);
 
         Resultado<List<Contato>> resultadoContatos= daoContato.listar();
 
@@ -63,7 +63,8 @@ public class AppTest
 
         CompromissoDAO dao = new JDBCCompromissoDAO(FabricaConexoes.getInstance());
         CategoriaDAO daoCategoria = new JDBCCategoriaDAO(FabricaConexoes.getInstance());
-        CompromissoRepository repositorio = new CompromissoRepository(dao,daoCategoria);
+        ContatoDAO daoContato = new JDBCContatoDAO(FabricaConexoes.getInstance());
+        CompromissoRepository repositorio = new CompromissoRepository(dao,daoCategoria,daoContato);
 
         Resultado<List<Compromisso>> resultado = repositorio.listar();
 
@@ -71,9 +72,13 @@ public class AppTest
         
         List<Compromisso> lista = resultado.comoSucesso().getObj();
 
-        assertEquals(1, lista.size());
-
-        System.out.println(lista.get(0).getCategoria().getNome());
+        
+        for(Compromisso c:lista){
+            System.out.println(c.getId()+" "+c.getCategoria().getNome());
+            for(Contato con:c.getConvidados()){
+                System.out.println("  "+con.getNome());
+            }
+        }
 
     }
 

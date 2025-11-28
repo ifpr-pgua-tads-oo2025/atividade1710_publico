@@ -11,6 +11,7 @@ public interface ContatoDAO {
 
     public Resultado<Contato> salvar(Contato contato);
     public Resultado<List<Contato>> listar();
+    public Resultado<List<Contato>> listarConvidadosCompromisso(int idCompromisso);
 
     
 }

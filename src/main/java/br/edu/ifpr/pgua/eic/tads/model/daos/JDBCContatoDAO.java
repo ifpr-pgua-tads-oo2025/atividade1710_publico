@@ -88,5 +88,36 @@ public class JDBCContatoDAO implements ContatoDAO{
     }
 
 
+    @Override
+    public Resultado<List<Contato>> listarConvidadosCompromisso(int idCompromisso) {
+        
+        ArrayList<Contato> convidados = new ArrayList<>();
+
+        try(Connection con = fabrica.getConnection()){
+            String sql = "SELECT * FROM oo_contatos INNER JOIN contatos_compromissos ON contatos_compromissos.idContato=oo_contatos.id WHERE contatos_compromissos.idCompromisso=?";
+            
+            PreparedStatement pstm = con.prepareStatement(sql);
+            pstm.setInt(1, idCompromisso);
+
+            ResultSet result = pstm.executeQuery();
+
+            while(result.next()){
+                int id = result.getInt("id");
+                String nome = result.getString("nome");
+                String telefone = result.getString("telefone");
+                String email = result.getString("email");
+
+                Contato contato = new Contato(id,nome, telefone, email);
+                convidados.add(contato);
+            }
+            return Resultado.sucesso("Lista carregada", convidados);
+        
+        }catch(SQLException e){
+            return Resultado.erro(e.getMessage());
+        }
+        
+    }
+
+
     
 }

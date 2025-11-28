@@ -29,5 +29,12 @@ public class TxtContatoDAO implements ContatoDAO{
         System.out.println("Lendo contatos do txt!!");
         return Resultado.sucesso("Lista de contatos", lista);
     }
+
+
+    @Override
+    public Resultado<List<Contato>> listarConvidadosCompromisso(int idCompromisso) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'listarConvidadosCompromisso'");
+    }
     
 }

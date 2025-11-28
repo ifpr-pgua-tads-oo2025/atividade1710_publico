@@ -24,5 +24,11 @@ public class XMLContatoDAO implements ContatoDAO{
     public Resultado<List<Contato>> listar(){
         System.out.println("Carregando e processando XML!!");
         return Resultado.sucesso("Lista XML carregada!", lista);
+    }
+
+    @Override
+    public Resultado<List<Contato>> listarConvidadosCompromisso(int idCompromisso) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'listarConvidadosCompromisso'");
     } 
 }
