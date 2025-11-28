@@ -13,6 +13,7 @@ import java.util.List;
 import com.github.hugoperlin.results.Resultado;
 
 import br.edu.ifpr.pgua.eic.tads.model.Compromisso;
+import br.edu.ifpr.pgua.eic.tads.model.Contato;
 import br.edu.ifpr.pgua.eic.tads.model.FabricaConexoes;
 import br.edu.ifpr.pgua.eic.tads.utils.DBUtils;
 
@@ -27,17 +28,30 @@ public class JDBCCompromissoDAO implements CompromissoDAO {
 
     public Resultado<Compromisso> salvar(Compromisso compromisso){
         
-        String sql = "INSERT INTO oo_compromissos(descricao,dataHora) VALUES (?,?)";
+        String sql = "INSERT INTO oo_compromissos(descricao,dataHora,idCategoria) VALUES (?,?,?)";
 
         try(Connection con = fabricaConexoes.getConnection()){
             PreparedStatement pstmt = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, compromisso.getDescricao());
             pstmt.setTimestamp(2, Timestamp.valueOf(compromisso.getDataHora()));
+            pstmt.setInt(3, compromisso.getCategoria().getId());
 
             int rows = pstmt.executeUpdate();
             if(rows == 1){
                 int id = DBUtils.getLastId(pstmt);
                 compromisso.setId(id);
+
+                String sql2 = "INSERT INTO contatos_compromissos(idCompromisso,idContato) VALUES(?,?)";
+                PreparedStatement pstmt2 = con.prepareStatement(sql2);
+
+                for(Contato contato:compromisso.getConvidados()){
+                    pstmt2.setInt(1, id);
+                    pstmt2.setInt(2, contato.getId());
+
+                    pstmt2.executeUpdate();
+                }
+                pstmt2.close();
+
 
                 return Resultado.sucesso("Compromisso salvo!", compromisso);
             }else{
@@ -63,7 +77,7 @@ public class JDBCCompromissoDAO implements CompromissoDAO {
                 String descricao = resultSet.getString("descricao");
                 LocalDateTime dataHora = resultSet.getTimestamp("dataHora").toLocalDateTime();
                 
-                Compromisso compromisso = new Compromisso(id,dataHora, descricao);
+                Compromisso compromisso = new Compromisso(id,dataHora, descricao,null);
                 lista.add(compromisso);
             }
 
